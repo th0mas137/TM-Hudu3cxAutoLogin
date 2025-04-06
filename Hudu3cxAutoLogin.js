@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Hudu → 3CX Auto-Login
 // @namespace    http://tampermonkey.net/
-// @version      4.2
+// @version      4.3
 // @description  Instant 3cx login from Hudu (3CX-V20) MFA Compatible
 // @match        https://teamtel.huducloud.com/*
 // @grant        GM_xmlhttpRequest
