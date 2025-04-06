@@ -1,13 +1,13 @@
 // ==UserScript==
-// @name         Hudu → 3CX Auto-Login
+// @name         Hudu → 3CX Auto-Login 
 // @namespace    http://tampermonkey.net/
-// @version      4.3
-// @description  Instant 3cx login from Hudu (3CX-V20) MFA Compatible
-// @match        *.huducloud.com/*
+// @version      4.4
+// @description  Auto 3cx login from Hudu
+// @match        https://*.huducloud.com/*
 // @grant        GM_xmlhttpRequest
 // @grant        GM_addStyle
 // @grant        GM_cookie
-// @connect      *.huducloud.com
+// @connect      huducloud.com
 // @connect      *
 // @updateURL   https://raw.githubusercontent.com/th0mas137/TM-Hudu3cxAutoLogin/refs/heads/main/Hudu3cxAutoLogin.js
 // @downloadURL https://raw.githubusercontent.com/th0mas137/TM-Hudu3cxAutoLogin/refs/heads/main/Hudu3cxAutoLogin.js
@@ -16,6 +16,10 @@
 
 (function() {
     'use strict';
+
+    // We'll build Hudu URLs dynamically using window.location.origin
+    // e.g. "https://teamtel.huducloud.com" or "https://myorg.huducloud.com"
+    const baseHudu = window.location.origin;
 
     let isAlreadyInitialized = false;
 
@@ -76,7 +80,7 @@
     }
 
     /**
-     * Finds numeric-username anchors, injects "Login" button
+     * Finds numeric-username anchors, injects "Fetch 3CX & Login" button
      */
     function addButtonsIfPasswordsFound(container) {
         container = container || document.querySelector('.table-scroll.table-scroll--fixed-column');
@@ -94,7 +98,7 @@
             link.setAttribute('data-3cx-init', 'true');
 
             const newBtn = document.createElement('a');
-            newBtn.textContent = "Login";
+            newBtn.textContent = "Fetch 3CX & Login";
             newBtn.className = "button button--plain";
             newBtn.style.cursor = "pointer";
             newBtn.style.marginLeft = "8px";
@@ -118,7 +122,7 @@
 
         // The 3CX domain link
         let threeCxUrl = null;
-        const link3cx = row.querySelector('a[href*=".3cx."]')
+        const link3cx = row.querySelector('a[href*=".3cx."]') 
                       || row.querySelector('a[href*="my3cx."]');
         if (link3cx) {
             threeCxUrl = link3cx.href;
@@ -134,7 +138,8 @@
             alert("No password link found in this row!");
             return;
         }
-        const passUrl = "https://teamtel.huducloud.com" + passLink.getAttribute('data-copy-button-url-value');
+        // Build the full route from the local domain (no more "teamtel" hardcode)
+        const passUrl = baseHudu + passLink.getAttribute('data-copy-button-url-value');
 
         // Possibly an OTP link (MFA)
         const otpLink = row.querySelector('a[data-copy-button-url-value*="/otp_authenticated_access"]');
@@ -154,7 +159,7 @@
 
             // Step 2: if an OTP link is present, fetch it up-front
             if (useMFA) {
-                const otpUrl = "https://teamtel.huducloud.com" + otpLink.getAttribute('data-copy-button-url-value');
+                const otpUrl = baseHudu + otpLink.getAttribute('data-copy-button-url-value');
                 fetchHuduOTP(otpUrl, csrfToken).then(otpCode => {
                     if (!otpCode) {
                         alert("Failed to fetch OTP code from Hudu. Check console.");
