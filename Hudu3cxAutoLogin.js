@@ -9,8 +9,8 @@
 // @grant        GM_cookie
 // @connect      *.huducloud.com
 // @connect      *
-// @updateURL   https://example.com/scripts/myScript.user.js
-// @downloadURL https://example.com/scripts/myScript.user.js
+// @updateURL   https://raw.githubusercontent.com/th0mas137/TM-Hudu3cxAutoLogin/refs/heads/main/Hudu3cxAutoLogin.js
+// @downloadURL https://raw.githubusercontent.com/th0mas137/TM-Hudu3cxAutoLogin/refs/heads/main/Hudu3cxAutoLogin.js
 // @run-at       document-end
 // ==/UserScript==
 
