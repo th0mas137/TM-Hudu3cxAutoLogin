@@ -3,7 +3,7 @@
 // @namespace    http://tampermonkey.net/
 // @version      4.3
 // @description  Instant 3cx login from Hudu (3CX-V20) MFA Compatible
-// @match        https://teamtel.huducloud.com/*
+// @match        *.huducloud.com/*
 // @grant        GM_xmlhttpRequest
 // @grant        GM_addStyle
 // @grant        GM_cookie
