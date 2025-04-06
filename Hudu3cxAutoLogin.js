@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Hudu → 3CX Auto-Login 
 // @namespace    http://tampermonkey.net/
-// @version      4.4
+// @version      4.5
 // @description  Auto 3cx login from Hudu
 // @match        https://*.huducloud.com/*
 // @grant        GM_xmlhttpRequest
@@ -80,7 +80,7 @@
     }
 
     /**
-     * Finds numeric-username anchors, injects "Fetch 3CX & Login" button
+     * Finds numeric-username anchors, injects "Login" button
      */
     function addButtonsIfPasswordsFound(container) {
         container = container || document.querySelector('.table-scroll.table-scroll--fixed-column');
@@ -98,7 +98,7 @@
             link.setAttribute('data-3cx-init', 'true');
 
             const newBtn = document.createElement('a');
-            newBtn.textContent = "Fetch 3CX & Login";
+            newBtn.textContent = "Login";
             newBtn.className = "button button--plain";
             newBtn.style.cursor = "pointer";
             newBtn.style.marginLeft = "8px";
